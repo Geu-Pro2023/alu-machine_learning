@@ -1,62 +1,50 @@
 #!/usr/bin/env python3
 """
-    A function determinant(matrix) that calculates the determinant of a matrix
+Module to calculate the determinant of a matrix.
 """
 
 
 def determinant(matrix):
     """
-    Calculates the determinant of a matrix
+    Calculate the determinant of a matrix. Validates that the input is a
+    list of lists and checks for squareness. Handles 0x0 matrices by
+    returning 1, in accordance with mathematical conventions.
 
     Args:
-        - matrix: list of lists representing the matrix
+        matrix (list of lists): The matrix to calculate the determinant for.
 
     Returns:
-        - the determinant of matrix
+        int or float: The determinant of the matrix, with special handling for
+        0x0 matrices.
 
+    Raises:
+        TypeError: If the matrix is not a list of lists.
+        ValueError: If the matrix is not square.
     """
-    # Check if the input is a list of lists
-    if type(matrix) is not list:
+    # Validate matrix format
+    if not isinstance(matrix, list) or not all(
+            isinstance(row, list) for row in matrix):
         raise TypeError("matrix must be a list of lists")
 
-    # Check if the matrix is empty
-    matrix_size = len(matrix)
-    if matrix_size == 0:
-        raise TypeError("matrix must be a list of lists")
+    num_rows = len(matrix)
 
-    # Check if the matrix is square
-    for row in matrix:
-        if type(row) is not list:
-            raise TypeError("matrix must be a list of lists")
-        if matrix == [[]]:
-            return 1
-        if len(row) != matrix_size:
-            raise ValueError("matrix must be a square matrix")
+    # Early return for 0x0 matrix
+    if num_rows == 0:
+        return 1
+
+    # Validate square shape
+    if any(len(row) != num_rows for row in matrix):
+        raise ValueError("matrix must be a square matrix")
 
     # Base case for 1x1 matrix
-    if matrix_size == 1:
+    if num_rows == 1:
         return matrix[0][0]
 
-    # Base case for 2x2 matrix
-    if matrix_size == 2:
-        a = matrix[0][0]
-        b = matrix[0][1]
-        c = matrix[1][0]
-        d = matrix[1][1]
-        return (a * d) - (b * c)
-
-    # Calculate determinant for larger matrices
-    multiplier = 1
+    # Recursive case for matrices larger than 1x1
     det = 0
-    for i in range(matrix_size):
-        element = matrix[0][i]
-        sub_matrix = []
-        for row_idx in range(1, matrix_size):
-            new_row = []
-            for col_idx in range(matrix_size):
-                if col_idx != i:
-                    new_row.append(matrix[row_idx][col_idx])
-            sub_matrix.append(new_row)
-        det += (element * multiplier * determinant(sub_matrix))
-        multiplier *= -1
+    for col in range(num_rows):
+        minor = [row[:col] + row[col + 1:] for row in matrix[1:]]
+        cofactor = (-1) ** col * matrix[0][col] * determinant(minor)
+        det += cofactor
+
     return det
