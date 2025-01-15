@@ -1,4 +1,5 @@
-n DeepNeuralNetwork"""
+#!/usr/bin/env python3
+"""Train DeepNeuralNetwork"""
 
 
 import numpy as np
