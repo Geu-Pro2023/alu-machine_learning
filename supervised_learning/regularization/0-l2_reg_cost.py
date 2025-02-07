@@ -27,3 +27,4 @@ def l2_reg_cost(cost, lambtha, weights, L, m):
 
     total_cost = cost + penality
 
+    return total_cost
