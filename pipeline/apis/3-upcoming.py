@@ -39,7 +39,7 @@ if __name__ == "__main__":
     # Fetch Rocket details
     rocket_name = "Unknown"
     if rocket_id:
-        rocket_response = requests.get(f'https://api.spacexdata.com/v4/rockets/{rocket_id}')
+        rocket_response = requests.get('https://api.spacexdata.com/v4/rockets/{}'.format(rocket_id))
         if rocket_response.status_code == 200:
             rocket_name = rocket_response.json().get('name', 'Unknown')
 
@@ -47,11 +47,11 @@ if __name__ == "__main__":
     launchpad_name = "Unknown"
     location = "Unknown"
     if launchpad_id:
-        launchpad_response = requests.get(f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}')
+        launchpad_response = requests.get('https://api.spacexdata.com/v4/launchpads/{}'.format(launchpad_id))
         if launchpad_response.status_code == 200:
             launchpad_data = launchpad_response.json()
             launchpad_name = launchpad_data.get('name', 'Unknown')
             location = launchpad_data.get('locality', 'Unknown')
 
     # Print launch details
-    print(f"{launch_name} ({date}) {rocket_name} - {launchpad_name} ({location})")
+    print("{} ({}) {} - {} ({})".format(launch_name, date, rocket_name, launchpad_name, location))
