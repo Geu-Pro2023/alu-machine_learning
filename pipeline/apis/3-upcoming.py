@@ -9,13 +9,13 @@ import requests
 if __name__ == "__main__":
     url = "https://api.spacexdata.com/v4/launches/upcoming"
     response = requests.get(url)
-    
+
     if response.status_code != 200:
         print("Failed to fetch launch data")
         exit(1)
-    
+
     results = response.json()
-    
+
     if not results:
         print("No upcoming launches found.")
         exit(1)
@@ -39,7 +39,8 @@ if __name__ == "__main__":
     # Fetch Rocket details
     rocket_name = "Unknown"
     if rocket_id:
-        rocket_response = requests.get('https://api.spacexdata.com/v4/rockets/{}'.format(rocket_id))
+        rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
+        rocket_response = requests.get(rocket_url)
         if rocket_response.status_code == 200:
             rocket_name = rocket_response.json().get('name', 'Unknown')
 
@@ -47,11 +48,18 @@ if __name__ == "__main__":
     launchpad_name = "Unknown"
     location = "Unknown"
     if launchpad_id:
-        launchpad_response = requests.get('https://api.spacexdata.com/v4/launchpads/{}'.format(launchpad_id))
+        launchpad_url = "https://api.spacexdata.com/v4/launchpads/{}".format(
+            launchpad_id
+        )
+        launchpad_response = requests.get(launchpad_url)
         if launchpad_response.status_code == 200:
             launchpad_data = launchpad_response.json()
             launchpad_name = launchpad_data.get('name', 'Unknown')
             location = launchpad_data.get('locality', 'Unknown')
 
     # Print launch details
-    print("{} ({}) {} - {} ({})".format(launch_name, date, rocket_name, launchpad_name, location))
+    print(
+        "{} ({}) {} - {} ({})".format(
+            launch_name, date, rocket_name, launchpad_name, location
+        )
+    )
