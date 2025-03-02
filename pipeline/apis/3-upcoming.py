@@ -24,7 +24,8 @@ if __name__ == "__main__":
     upcoming_launch = None
 
     for launch in results:
-        if upcoming_launch is None or launch['date_unix'] < upcoming_launch['date_unix']:
+        if (upcoming_launch is None or
+                launch['date_unix'] < upcoming_launch['date_unix']):
             upcoming_launch = launch
 
     if not upcoming_launch:
@@ -39,7 +40,9 @@ if __name__ == "__main__":
     # Fetch Rocket details
     rocket_name = "Unknown"
     if rocket_id:
-        rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
+        rocket_url = (
+            "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
+        )
         rocket_response = requests.get(rocket_url)
         if rocket_response.status_code == 200:
             rocket_name = rocket_response.json().get('name', 'Unknown')
@@ -48,8 +51,8 @@ if __name__ == "__main__":
     launchpad_name = "Unknown"
     location = "Unknown"
     if launchpad_id:
-        launchpad_url = "https://api.spacexdata.com/v4/launchpads/{}".format(
-            launchpad_id
+        launchpad_url = (
+            "https://api.spacexdata.com/v4/launchpads/{}".format(launchpad_id)
         )
         launchpad_response = requests.get(launchpad_url)
         if launchpad_response.status_code == 200:
