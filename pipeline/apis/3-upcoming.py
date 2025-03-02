@@ -20,17 +20,11 @@ if __name__ == "__main__":
         print("No upcoming launches found.")
         exit(1)
 
-    # Initialize to find the earliest launch
-    upcoming_launch = None
+    # Debug: Print response to check structure
+    # print(results)
 
-    for launch in results:
-        if (upcoming_launch is None or
-                launch['date_unix'] < upcoming_launch['date_unix']):
-            upcoming_launch = launch
-
-    if not upcoming_launch:
-        print("No valid upcoming launch found.")
-        exit(1)
+    # Find the earliest upcoming launch
+    upcoming_launch = min(results, key=lambda x: x.get('date_unix', float('inf')))
 
     launch_name = upcoming_launch.get('name', 'Unknown')
     date = upcoming_launch.get('date_local', 'Unknown')
@@ -40,9 +34,7 @@ if __name__ == "__main__":
     # Fetch Rocket details
     rocket_name = "Unknown"
     if rocket_id:
-        rocket_url = (
-            "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
-        )
+        rocket_url = f"https://api.spacexdata.com/v4/rockets/{rocket_id}"
         rocket_response = requests.get(rocket_url)
         if rocket_response.status_code == 200:
             rocket_name = rocket_response.json().get('name', 'Unknown')
@@ -51,9 +43,7 @@ if __name__ == "__main__":
     launchpad_name = "Unknown"
     location = "Unknown"
     if launchpad_id:
-        launchpad_url = (
-            "https://api.spacexdata.com/v4/launchpads/{}".format(launchpad_id)
-        )
+        launchpad_url = f"https://api.spacexdata.com/v4/launchpads/{launchpad_id}"
         launchpad_response = requests.get(launchpad_url)
         if launchpad_response.status_code == 200:
             launchpad_data = launchpad_response.json()
@@ -61,8 +51,8 @@ if __name__ == "__main__":
             location = launchpad_data.get('locality', 'Unknown')
 
     # Print launch details
-    print(
-        "{} ({}) {} - {} ({})".format(
-            launch_name, date, rocket_name, launchpad_name, location
-        )
+    output = "{} ({}) {} - {} ({})".format(
+        launch_name, date, rocket_name, launchpad_name, location
     )
+    
+    print(output)
