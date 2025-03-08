@@ -1,3 +1,4 @@
+// data
 db.school.find().forEach(function(doc) {
   print(JSON.stringify(doc));
 });
