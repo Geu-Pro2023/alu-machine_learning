@@ -1,2 +1,2 @@
 // List all databases
-db.adminCommand('listDatabases').databases.forEach(d => print(d.name));
+db.getMongo().getDBs().databases.forEach(d => print(d.name));
