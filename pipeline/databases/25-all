@@ -1,3 +1,4 @@
-// collection
-db.school.find().forEach(printjson);
-quit(); // Ensure clean exit
+db.school.find().forEach(function(doc) {
+  print(JSON.stringify(doc));
+});
+quit();
