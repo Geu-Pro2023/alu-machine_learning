@@ -1,2 +1,5 @@
-// find the documents 
-db.school.find()
+// data
+db.school.find().forEach(function(doc) {
+  print(JSON.stringify(doc));
+});
+quit();
