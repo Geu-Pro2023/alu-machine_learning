@@ -1,7 +1,3 @@
-// List databases (sorted names only)
-const conn = new Mongo();
-conn.getDB("admin").adminCommand({ listDatabases: 1, nameOnly: true })
-    .databases.map(d => d.name)
-    .sort()
-    .forEach(name => print(name));
-quit();
+for i in {1..5}; do
+  mongosh --eval "db.getSiblingDB('my_db_$i').dummy.insertOne({})" --quiet
+done
