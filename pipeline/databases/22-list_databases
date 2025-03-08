@@ -1,4 +1,4 @@
-// List databases silently
-const dbs = db.getMongo().getDBs().databases;
+// List all databases explicitly without connection messages
+const conn = new Mongo("mongodb://localhost:27017");
+const dbs = conn.getDB("admin").adminCommand({ listDatabases: 1 }).databases;
 dbs.forEach(d => print(d.name));
-quit();
