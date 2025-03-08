@@ -1,3 +1,2 @@
-for i in {1..5}; do
-  mongosh --eval "db.getSiblingDB('my_db_$i').dummy.insertOne({})" --quiet
-done
+// show all dbs
+show dbs
