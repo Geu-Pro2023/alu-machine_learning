@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Log stats with verified field names """
+""" Log stats with validated document structure """
 from pymongo import MongoClient
 
 def log_stats():
@@ -8,8 +8,8 @@ def log_stats():
     db = client.logs
     collection = db.nginx
 
-    # Debug: Print a sample document to verify field names
-    # print(collection.find_one())  # Uncomment to inspect document structure
+    # Uncomment to inspect a sample document
+    # print(collection.find_one())
 
     total_logs = collection.count_documents({})
     print(f"{total_logs} logs")
