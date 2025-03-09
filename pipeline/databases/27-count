@@ -1,3 +1,2 @@
-// Displays the number of documents in the collection
 print(db.school.count());
-quit(); // Force exit to flush output
+quit();
