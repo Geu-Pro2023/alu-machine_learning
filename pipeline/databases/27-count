@@ -1,3 +1,2 @@
 // data
-print(db.school.count());
-quit();
+print(db.runCommand({ count: 'school' }).n);
