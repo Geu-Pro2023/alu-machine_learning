@@ -1,0 +1,8 @@
+// data
+var result = db.school.update(
+  { name: "Holberton school" },
+  { $set: { address: "972 Mission street" } },
+  { multi: true }
+);
+print(result + ""); // Force MongoDB 3.6-compatible string formatting
+quit();
