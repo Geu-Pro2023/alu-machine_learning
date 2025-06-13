@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-""" Normalization Constants"""
+"""Normalization Constants"""
+
 
 import numpy as np
 
 
 def normalization_constants(X):
-    """ Normalization Constants
+    """Function that calculates the normalization (standardization)
+    constants of a matrix:
 
-    Args:
-        X (_type_): _description_
-    Returns:
-        _type_: _description_
-    """
-
-    return X.mean(axis=0), X.std(axis=0)
+    X: is the numpy.ndarray of shape (m, nx) to normalize
+        m is the number of data points
+        nx is the number of features
+    Returns: the mean and standard deviation of each feature, respectively"""
+    mean = np.mean(X, axis=0)
+    stddev = np.std(X, axis=0)
+    return mean, stddev

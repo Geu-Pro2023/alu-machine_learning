@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-""" Moving average"""
+"""Moving Average"""
+
 import numpy as np
 
 
 def moving_average(data, beta):
-    """ moving average"""
+    """Function that calculates the weighted moving average of a data set"""
     v = 0
-    result = []
-    for x in range(len(data)):
-        v = beta * v + (1 - beta) * data[x]
-        b = 1 - (beta ** (x + 1))
-        result.append(v / b)
-    return result
+    moving_averages = []
+    for i in range(len(data)):
+        v = beta * v + (1 - beta) * data[i]
+        bias_correction = 1 - beta ** (i + 1)
+        moving_averages.append(v / bias_correction)
+    return moving_averages

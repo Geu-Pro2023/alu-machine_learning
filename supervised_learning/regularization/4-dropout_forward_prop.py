@@ -1,36 +1,25 @@
 #!/usr/bin/env python3
-""" Forward Propagation with Dropout """
-
+"""Forward Propagation with Dropout"""
 
 import numpy as np
 
 
 def dropout_forward_prop(X, weights, L, keep_prob):
-    """ Forward Propagation with Dropout
-        X: (nx, m) input data
-          nx: number of input features
-          m: number of examples
-        weights: dictionary of weights and biases of the neural network
-        L: number of layers in the network
-        keep_prob: probability that a node will be kept
-        Returns: dictionary containing the outputs of each
-        layer and the dropout mask used on each layer
-    """
+    """conducts forward propagation using Dropout"""
     cache = {}
     cache['A0'] = X
     for i in range(1, L + 1):
-        W = weights['W' + str(i)]
-        b = weights['b' + str(i)]
-        A = cache['A' + str(i - 1)]
-        Z = np.matmul(W, A) + b
-        if i < L:
-            A = np.tanh(Z)
-            D = np.random.rand(A.shape[0], A.shape[1])
-            D = np.where(D < keep_prob, 1, 0)
-            A = np.multiply(A, D)
-            A = A / keep_prob
-            cache['D' + str(i)] = D
+        Z = np.matmul(weights['W' + str(i)],
+                      cache['A' + str(i - 1)]) + weights['b' + str(i)]
+        if i == L:
+            cache['A' + str(i)] = np.exp(Z) / np.sum(np.exp(Z),
+                                                     axis=0, keepdims=True)
         else:
-            A = np.exp(Z) / np.sum(np.exp(Z), axis=0, keepdims=True)
-        cache['A' + str(i)] = A
+            cache['A' + str(i)] = np.tanh(Z)
+            cache['D' + str(i)] = np.random.rand(cache['A' + str(i)].shape[0],
+                                                 cache['A' + str(i)].shape[1])
+            cache['D' + str(i)] = np.where(cache['D' + str(i)]
+                                           < keep_prob, 1, 0)
+            cache['A' + str(i)] *= cache['D' + str(i)]
+            cache['A' + str(i)] /= keep_prob
     return cache
